@@ -1,0 +1,28 @@
+#!/bin/bash
+
+#STAGEONE="/home/john/mkboot"
+#STAGETWO="/home/john/zip/PRODUCTS"
+#NEWMODS="$STAGETWO/d2dcm/d2dcm_boot/system/lib/modules"
+
+make distclean
+export CROSS_COMPILE=/opt/toolchains/arm-eabi-4.6/bin/arm-eabi-
+export ARCH=arm
+export USE_CCACHE=1
+
+make msm8930_lt02_defconfig VARIANT_DEFCONFIG=msm8930_lt02_spr_defconfig SELINUX_DEFCONFIG=selinux_defconfig
+make modules
+time make -j8 zImage 2>&1 | tee kbuild.txt
+
+
+#echo "Copying modules to working dir"
+#find -name '*.ko' -exec cp -av {} $NEWMODS/ \;
+#echo "Copying zImage to working dir"
+#find -name 'zImage' -exec cp -av {} $STAGEONE/d2dcm/ \;
+#echo "Running mkbootfs and mkbootimg"
+#cd $STAGEONE/d2dcm
+#. Bd2dcm
+#echo "Copying boot.img to Edify zip dir"
+#cp $STAGEONE/d2dcm/boot.img $STAGETWO/d2dcm/d2dcm_boot/
+
+geany ~/logs/Kd2dcm.txt
+
